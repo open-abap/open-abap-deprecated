@@ -1,0 +1,19 @@
+{
+  "global": {
+    "files": "/src/**/*.*"
+  },
+  "dependencies": [
+    {
+      "url": "https://github.com/open-abap/open-abap-core",
+      "files": "/src/**/*.*"
+    }
+  ],
+  "syntax": {
+    "version": "open-abap",
+    "errorNamespace": "."
+  },
+  "rules": {
+    "check_ddic": true,
+    "parser_error": true
+  }
+}
