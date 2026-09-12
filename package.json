@@ -1,0 +1,22 @@
+{
+  "name": "open-abap-deprecated",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Deprecated artifacts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/open-abap/open-abap-deprecated.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/open-abap/open-abap-deprecated/issues"
+  },
+  "homepage": "https://github.com/open-abap/open-abap-deprecated#readme",
+  "scripts": {
+    "test": "abaplint"
+  },
+  "dependencies": {
+    "@abaplint/cli": "^2.120.51"
+  }
+}
