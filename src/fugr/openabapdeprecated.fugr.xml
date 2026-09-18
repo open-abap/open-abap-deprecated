@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_FUGR" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <AREAT>open-abap-deprecated</AREAT>
+   <INCLUDES>
+    <SOBJ_NAME>LOPENABAPDEPRECATEDTOP</SOBJ_NAME>
+    <SOBJ_NAME>SAPLOPENABAPDEPRECATED</SOBJ_NAME>
+   </INCLUDES>
+   <FUNCTIONS>
+    <item>
+     <FUNCNAME>GENERAL_GET_RANDOM_INT</FUNCNAME>
+     <SHORT_TEXT>GENERAL_GET_RANDOM_INT</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>RANGE</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>I</TYP>
+      </RSIMP>
+     </IMPORT>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>RANDOM</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>I</TYP>
+      </RSEXP>
+     </EXPORT>
+    </item>
+   </FUNCTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>
