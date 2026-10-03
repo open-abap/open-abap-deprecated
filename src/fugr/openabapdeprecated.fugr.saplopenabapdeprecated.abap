@@ -1,0 +1,2 @@
+INCLUDE lopenabapdeprecatedtop.
+INCLUDE lopenabapdeprecateduxx.
