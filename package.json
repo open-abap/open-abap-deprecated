@@ -14,9 +14,17 @@
   },
   "homepage": "https://github.com/open-abap/open-abap-deprecated#readme",
   "scripts": {
-    "test": "abaplint"
+    "lint": "abaplint",
+    "unit": "rimraf output && abap_transpile && echo RUNNING && node --expose-gc output/index.mjs && echo OK",
+    "test": "npm run lint && npm run unit"
   },
   "dependencies": {
-    "@abaplint/cli": "^2.120.51"
+    "@abaplint/cli": "^2.120.51",
+    "@abaplint/database-sqlite": "^2.13.83",
+    "@abaplint/runtime": "^2.13.96",
+    "@abaplint/transpiler-cli": "^2.13.96"
+  },
+  "devDependencies": {
+    "rimraf": "^6.1.3"
   }
 }
