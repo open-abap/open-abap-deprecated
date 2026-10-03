@@ -88,5 +88,140 @@ CLASS ltcl_random IMPLEMENTATION.
     ENDDO.
   ENDMETHOD.
 
+ENDCLASS.
+
+CLASS ltcl_domvalues DEFINITION FOR TESTING RISK LEVEL HARMLESS DURATION SHORT FINAL.
+  PRIVATE SECTION.
+    METHODS with_text FOR TESTING RAISING cx_static_check.
+    METHODS without_text FOR TESTING RAISING cx_static_check.
+    METHODS other_language FOR TESTING RAISING cx_static_check.
+    METHODS unknown_domain FOR TESTING RAISING cx_static_check.
+    METHODS wrong_textflag FOR TESTING RAISING cx_static_check.
+ENDCLASS.
+
+CLASS ltcl_domvalues IMPLEMENTATION.
+
+  METHOD with_text.
+* ABAP_BOOLEAN from open-abap-core: space False, X True, maintained in English
+    DATA lt_dd07v TYPE STANDARD TABLE OF dd07v WITH DEFAULT KEY.
+    DATA ls_dd07v LIKE LINE OF lt_dd07v.
+    DATA lv_rc    TYPE sy-subrc.
+
+    CALL FUNCTION 'DD_DOMVALUES_GET'
+      EXPORTING
+        domname   = 'ABAP_BOOLEAN'
+        text      = abap_true
+        langu     = 'E'
+      IMPORTING
+        rc        = lv_rc
+      TABLES
+        dd07v_tab = lt_dd07v.
+
+    cl_abap_unit_assert=>assert_equals(
+      act = lv_rc
+      exp = 0 ).
+    cl_abap_unit_assert=>assert_equals(
+      act = lines( lt_dd07v )
+      exp = 2 ).
+
+    READ TABLE lt_dd07v INDEX 2 INTO ls_dd07v.
+    cl_abap_unit_assert=>assert_equals(
+      act = ls_dd07v-domname
+      exp = 'ABAP_BOOLEAN' ).
+    cl_abap_unit_assert=>assert_equals(
+      act = ls_dd07v-valpos
+      exp = '0002' ).
+    cl_abap_unit_assert=>assert_equals(
+      act = ls_dd07v-domvalue_l
+      exp = 'X' ).
+    cl_abap_unit_assert=>assert_equals(
+      act = ls_dd07v-ddlanguage
+      exp = 'E' ).
+    cl_abap_unit_assert=>assert_equals(
+      act = ls_dd07v-ddtext
+      exp = 'True' ).
+  ENDMETHOD.
+
+  METHOD without_text.
+    DATA lt_dd07v TYPE STANDARD TABLE OF dd07v WITH DEFAULT KEY.
+    DATA ls_dd07v LIKE LINE OF lt_dd07v.
+
+    CALL FUNCTION 'DD_DOMVALUES_GET'
+      EXPORTING
+        domname   = 'ABAP_BOOLEAN'
+      TABLES
+        dd07v_tab = lt_dd07v.
+
+    cl_abap_unit_assert=>assert_equals(
+      act = lines( lt_dd07v )
+      exp = 2 ).
+    LOOP AT lt_dd07v INTO ls_dd07v.
+      cl_abap_unit_assert=>assert_initial( ls_dd07v-ddtext ).
+      cl_abap_unit_assert=>assert_initial( ls_dd07v-ddlanguage ).
+    ENDLOOP.
+  ENDMETHOD.
+
+  METHOD other_language.
+* the values are there, the texts are not
+    DATA lt_dd07v TYPE STANDARD TABLE OF dd07v WITH DEFAULT KEY.
+    DATA ls_dd07v LIKE LINE OF lt_dd07v.
+
+    CALL FUNCTION 'DD_DOMVALUES_GET'
+      EXPORTING
+        domname   = 'ABAP_BOOLEAN'
+        text      = abap_true
+        langu     = 'D'
+      TABLES
+        dd07v_tab = lt_dd07v.
+
+    cl_abap_unit_assert=>assert_equals(
+      act = lines( lt_dd07v )
+      exp = 2 ).
+    READ TABLE lt_dd07v INDEX 2 INTO ls_dd07v.
+    cl_abap_unit_assert=>assert_equals(
+      act = ls_dd07v-domvalue_l
+      exp = 'X' ).
+    cl_abap_unit_assert=>assert_initial( ls_dd07v-ddtext ).
+  ENDMETHOD.
+
+  METHOD unknown_domain.
+* the table is cleared before it is filled
+    DATA lt_dd07v TYPE STANDARD TABLE OF dd07v WITH DEFAULT KEY.
+    DATA ls_dd07v LIKE LINE OF lt_dd07v.
+    DATA lv_rc    TYPE sy-subrc.
+
+    APPEND ls_dd07v TO lt_dd07v.
+
+    CALL FUNCTION 'DD_DOMVALUES_GET'
+      EXPORTING
+        domname   = 'ZDOES_NOT_EXIST'
+      IMPORTING
+        rc        = lv_rc
+      TABLES
+        dd07v_tab = lt_dd07v.
+
+    cl_abap_unit_assert=>assert_equals(
+      act = lv_rc
+      exp = 4 ).
+    cl_abap_unit_assert=>assert_initial( lt_dd07v ).
+  ENDMETHOD.
+
+  METHOD wrong_textflag.
+    DATA lt_dd07v TYPE STANDARD TABLE OF dd07v WITH DEFAULT KEY.
+
+    CALL FUNCTION 'DD_DOMVALUES_GET'
+      EXPORTING
+        domname        = 'ABAP_BOOLEAN'
+        text           = 'Y'
+      TABLES
+        dd07v_tab      = lt_dd07v
+      EXCEPTIONS
+        wrong_textflag = 1
+        OTHERS         = 2.
+
+    cl_abap_unit_assert=>assert_equals(
+      act = sy-subrc
+      exp = 1 ).
+  ENDMETHOD.
 
 ENDCLASS.
