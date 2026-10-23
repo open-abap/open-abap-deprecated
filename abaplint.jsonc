@@ -50,7 +50,7 @@
     "cds_comment_style": true,
     "change_if_to_case": false,
     "expand_macros": true,
-    "fully_type_itabs": true,
+    "fully_type_itabs": false,
     "select_single_full_key": true,
     "strict_sql": true,
     "unnecessary_return": false,
