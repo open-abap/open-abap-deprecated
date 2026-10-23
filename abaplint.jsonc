@@ -51,7 +51,7 @@
     "change_if_to_case": false,
     "expand_macros": true,
     "fully_type_itabs": true,
-    "select_single_full_key": true,
+    "select_single_full_key": false,
     "strict_sql": true,
     "unnecessary_return": false,
     "cds_legacy_view": true,
