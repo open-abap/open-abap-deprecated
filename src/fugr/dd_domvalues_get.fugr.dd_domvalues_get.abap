@@ -36,7 +36,7 @@ FUNCTION dd_domvalues_get.
   WRITE '@KERNEL for (const f of dtel?.fixedValues || []) {'.
   CLEAR ls_dd07v.
   ls_dd07v-domname = domname.
-  ls_dd07v-valpos = lines( dd07v_tab ) + 1.
+  ls_dd07v-valpos = lines( dd07v_tab[] ) + 1.
   WRITE '@KERNEL   ls_dd07v.get().domvalue_l.set(f.low || "");'.
   WRITE '@KERNEL   ls_dd07v.get().domvalue_h.set(f.high || "");'.
   WRITE '@KERNEL   lv_text_langu.set(f.language || "");'.
@@ -45,10 +45,10 @@ FUNCTION dd_domvalues_get.
     ls_dd07v-ddlanguage = lv_langu.
     ls_dd07v-ddtext = lv_text.
   ENDIF.
-  APPEND ls_dd07v TO dd07v_tab.
+  APPEND ls_dd07v TO dd07v_tab[].
   WRITE '@KERNEL }'.
 
-  IF lines( dd07v_tab ) = 0.
+  IF lines( dd07v_tab[] ) = 0.
     rc = 4.
   ENDIF.
 
